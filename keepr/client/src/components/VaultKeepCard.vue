@@ -11,9 +11,9 @@ import { computed } from 'vue';
 const ActiveKeepVault = computed(() => AppState.activeKeepVault);
 
 const props = defineProps({
-    vaultId : { type: String, required: true }, 
+    vaultId : { type: Number, required: true }, 
     keepVault: { type: KeepVault, required: true },
-     account: { type: Account, required: false } });
+    account: { type: Account, required: false } });
 
 
 async function getActiveVaultKeepByVaultIdAndVaultKeepId(vaultId, vaultKeepId) {

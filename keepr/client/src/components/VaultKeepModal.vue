@@ -1,6 +1,9 @@
 <script setup>
 import { AppState } from '@/AppState.js';
+import { keepsService } from '@/services/KeepsService.js';
 import { vaultKeepsService } from '@/services/VaultKeepsService.js';
+import { Pop } from '@/utils/Pop.js';
+import { Modal } from 'bootstrap';
 import { computed, watch } from 'vue';
 
 const account = computed(() => AppState.account);
@@ -28,7 +31,12 @@ async function deleteVaultKeep() {
         // You can call a service to delete the vault keep
 
         // After deletion, you might want to clear the activeKeepVault
-        AppState.activeKeepVault = null;
+        // AppState.activeKeepVault = null;
+        
+        Pop.toast("Keep removed from vault successfully!", "success");
+        
+        Modal.getOrCreateInstance('#vault-keep-modal').hide();
+
     } catch (error) {
         console.error("Error deleting vault keep:", error);
     }
@@ -75,7 +83,7 @@ async function deleteVaultKeep() {
                             </section>
                             <section class="row">
                                 <div class="d-flex">
-                                    <button class="btn btn-danger" @click="deleteVaultKeep">Remove from Vault</button>
+                                    <button v-if="activeKeepVault?.creatorId === AppState.account.id" class="btn btn-danger" @click="deleteVaultKeep">Remove from Vault</button>
                                     <div>
                                         <div class="d-flex align-items-center">
                                             <img :src="activeKeepVault?.creator.picture"
@@ -90,7 +98,7 @@ async function deleteVaultKeep() {
                     </div>
                 </div>
             </div>
-            <div class="modal-content">
+            <div v-else class="modal-content">
                 <div class="skeleton">
                     <div class="skeleton-header"></div>
                     <div class="skeleton-body"></div>

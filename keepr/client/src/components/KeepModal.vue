@@ -1,9 +1,8 @@
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { AppState } from '@/AppState.js';
 import { accountService } from '@/services/AccountService.js';
 import { vaultKeepsService } from '@/services/VaultKeepsService.js';
-import { VaultKeep } from '@/models/VaultKeep.js';
 import { Pop } from '@/utils/Pop.js';
 import { Modal } from 'bootstrap';
 
@@ -11,11 +10,7 @@ const activeKeep = computed(() => AppState.activeKeep);
 
 const account = computed(() => AppState.account);
 
-const vaults = computed(() => AppState.vaults);
-
-// onMounted( () => {
-//   getVaultsByAccountId();
-// } )
+const vaults = computed(() => AppState.vaults); //TODO Update this to use a sep vault appState
 
 
 watch(account, (newAccount) => {
@@ -54,6 +49,10 @@ async function addKeepToVault(vaultId) {
     console.log("Adding Keep to Vault:", selectedVault.value);
     await vaultKeepsService.addKeepToVault(vaultKeep);
     console.log(`Keep ${activeKeep.value.id} added to Vault ${vaultId}`);
+
+    //Reset selected vault
+    selectedVault.value = "";
+
     Pop.toast("Keep added to vault!");
     Modal.getInstance('#keep-modal').hide();
 

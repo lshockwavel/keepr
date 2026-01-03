@@ -54,19 +54,24 @@ public class VaultKeepRepository
         SELECT
         vault_keeps.*,
         keeps.*,
-        accounts.*
+        accounts.*,
+        count(vk.id) AS KeepsInVault
         FROM vault_keeps
         JOIN keeps ON vault_keeps.keep_id = keeps.id
         JOIN accounts ON keeps.creator_id = accounts.id
-        WHERE vault_keeps.vault_id = @vaultId;";
+        LEFT JOIN vault_keeps vk ON keeps.id = vk.keep_id
+        WHERE vault_keeps.vault_id = @vaultId
+        GROUP BY vault_keeps.id;";
 
-        List<KeepVaultView> vaultKeeps = _db.Query(sql, (VaultKeep vaultKeep, KeepVaultView keepVault, Account account) =>
+        List<KeepVaultView> vaultKeeps = _db.Query(sql, (VaultKeep vaultKeep, KeepVaultView keepVault, Account account, long keepsInVault) =>
         {
             keepVault.VaultKeepId = vaultKeep.Id;
-            keepVault.CreatorId = account.Id;
+            // keepVault.CreatorId = account.Id;
+            keepVault.CreatorId = vaultKeep.CreatorId; //TODO maybe this is correct? Other way may be wrong
             keepVault.Creator = account;
+            keepVault.Kept = (int)keepsInVault;
             return keepVault;
-        }, new { vaultId }).ToList();
+        }, new { vaultId }, splitOn: "id,id,KeepsInVault").ToList();
 
         return vaultKeeps;
     }

@@ -14,10 +14,10 @@ onMounted( () => {
 } )
 
 //If a keep is added/removed, refresh the keeps list
-watch(keeps, () => {
-  console.log("Keeps updated:", keeps.value);
-  getKeeps();
-});
+// watch(keeps, () => {
+//   console.log("Keeps updated:", keeps.value);
+//   getKeeps();
+// });
 
 async function getKeeps() {
   try {
@@ -38,7 +38,7 @@ async function getKeeps() {
           <div v-for="keep in keeps" :key="keep.id">
             <KeepCard :keep="keep" />
           </div>
-              <KeepModal />
+              
         </div>
       </div>
     </section>

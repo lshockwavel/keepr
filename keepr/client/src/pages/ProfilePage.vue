@@ -13,8 +13,8 @@ import VaultCard from '@/components/VaultCard.vue';
 const account = computed(() => AppState.account);
 const profile = computed(() => AppState.profile);
 
-const keeps = computed(() => AppState.keeps);
-const vaults = computed(() => AppState.vaults);
+const keeps = computed(() => AppState.profileKeeps);
+const vaults = computed(() => AppState.profileVaults);
 
 const route = useRoute();
 const router = useRouter();
@@ -32,10 +32,10 @@ watch(account, () => {
     }
 });
 
-watch(keeps, () => {
-    console.log("Keeps updated for profile page:", keeps.value);
-    getKeepsByProfileId();
-});
+// watch(keeps, () => {
+//     console.log("Keeps updated for profile page:", keeps.value);
+//     getKeepsByProfileId();
+// });
 
 async function getProfileById() {
     try {

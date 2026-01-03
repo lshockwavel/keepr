@@ -1,5 +1,4 @@
 <script setup>
-import { keepsService } from '@/services/KeepsService.js';
 import { vaultsService } from '@/services/VaultsService.js';
 import { Pop } from '@/utils/Pop.js';
 import { Modal } from 'bootstrap';
@@ -53,10 +52,6 @@ function resetForm() {
     };
 }
 
-async function clearImg() {
-    vaultForm.value.img = '';
-}
-
 </script>
 
 
@@ -73,20 +68,26 @@ async function clearImg() {
                         <form @submit="handleSubmit">
                             <div class="mb-3">
                                 <label for="vault-name" class="form-label">Vault Name</label>
-                                <input type="text" class="form-control" id="vault-name" v-model="vaultForm.name" required />
+                                <input type="text" class="form-control" id="vault-name" v-model="vaultForm.name"
+                                    required />
                             </div>
                             <div class="mb-3">
                                 <label for="vault-description" class="form-label">Description</label>
-                                <textarea class="form-control" id="vault-description" v-model="vaultForm.description" rows="3"></textarea>
+                                <textarea class="form-control" id="vault-description" v-model="vaultForm.description"
+                                    rows="3"></textarea>
                             </div>
                             <div class="mb-3 form-check">
-                                <input type="checkbox" class="form-check-input" id="vault-private" v-model="vaultForm.isPrivate"/>
+                                <input type="checkbox" class="form-check-input" id="vault-private"
+                                    v-model="vaultForm.isPrivate" />
                                 <label class="form-check-label" for="vault-private">Private Vault</label>
                             </div>
                             <div class="mb-3">
                                 <label for="vault-img" class="form-label">Image URL</label>
                                 <input type="text" class="form-control" id="vault-img" v-model="vaultForm.img" />
-                                <button type="button" class="btn btn-sm btn-secondary mt-2" @click="clearImg">Clear Image</button>
+                                <div v-if="vaultForm.img">
+                                    <h6 class="mt-2 mb-0">Image Preview:</h6>
+                                    <img class="preview-size" v-if="vaultForm.img" :src="vaultForm.img" alt="Preview"/> 
+                                </div>
                             </div>
                             <button type="submit" class="btn btn-primary">Create Vault</button>
                         </form>
@@ -99,5 +100,11 @@ async function clearImg() {
 
 
 <style lang="scss" scoped>
-
+.preview-size {
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    padding: 5px;
+    border-radius: 4px;
+    max-width: 200px;
+}
 </style>

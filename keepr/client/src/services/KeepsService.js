@@ -7,6 +7,9 @@ class KeepsService {
     async deleteKeep(keepId) {
         await api.delete(`api/keeps/${keepId}`);
         AppState.keeps = AppState.keeps.filter(k => k.id !== keepId);
+
+        // Also remove from keepVaults if present
+        AppState.profileKeeps = AppState.profileKeeps.filter(keepVault => keepVault.id !== keepId);
     }
     
     async createKeep(request) {

@@ -82,33 +82,65 @@ FROM
     JOIN keeps ON vault_keeps.keep_id = keeps.id
     JOIN accounts ON vault_keeps.creator_id = accounts.id
 
-SELECT
-        vault_keeps.*,
-        keeps.*,
-        accounts.*
-        FROM vault_keeps
-        JOIN keeps ON vault_keeps.keep_id = keeps.id
-        JOIN accounts ON keeps.creator_id = accounts.id
-        WHERE vault_keeps.vault_id = 15;
+SELECT vault_keeps.*, keeps.*, accounts.*
+FROM
+    vault_keeps
+    JOIN keeps ON vault_keeps.keep_id = keeps.id
+    JOIN accounts ON keeps.creator_id = accounts.id
+WHERE
+    vault_keeps.vault_id = 15;
 
 /* Accounts TABLE section */
 
 SELECT vaults.*
-    FROM vaults
-    WHERE accountId = "687afdc8522de155ec38cc42";
+FROM vaults
+WHERE
+    accountId = "687afdc8522de155ec38cc42";
 
 SELECT vaults.*
-    FROM vaults
-    WHERE creator_id = "687afdc8522de155ec38cc42";
+FROM vaults
+WHERE
+    creator_id = "687afdc8522de155ec38cc42";
 
 ALTER TABLE accounts
 ADD COLUMN cover_img VARCHAR(1000) COMMENT "Cover Image" AFTER picture;
 
 SELECT accounts.*
-    FROM accounts
-    WHERE id = "687afdc8522de155ec38cc42";
+FROM accounts
+WHERE
+    id = "687afdc8522de155ec38cc42";
 
 SELECT vaults.*, accounts.*
-    FROM vaults
+FROM vaults
     JOIN accounts ON vaults.creator_id = accounts.id
-    WHERE accounts.id = "687afdc8522de155ec38cc42";
+WHERE
+    accounts.id = "687afdc8522de155ec38cc42";
+
+SELECT vault_keeps.* FROM vault_keeps
+
+SELECT keeps.*, accounts.*, count(vk.id) AS kept
+FROM
+    keeps
+    JOIN accounts ON keeps.creator_id = accounts.id
+    LEFT JOIN vault_keeps vk ON keeps.id = vk.keep_id
+WHERE
+    keeps.id = 21
+GROUP BY keeps.id;
+
+
+SELECT
+        vault_keeps.*,
+        keeps.*,
+        accounts.*,
+        count(vk.id) AS KeepsInVault
+        FROM vault_keeps
+        JOIN keeps ON vault_keeps.keep_id = keeps.id
+        JOIN accounts ON keeps.creator_id = accounts.id
+        LEFT JOIN vault_keeps vk ON keeps.id = vk.keep_id
+        WHERE vault_keeps.vault_id = 146
+        GROUP BY vault_keeps.id;
+
+
+SELECT vault_keeps.*
+        FROM vault_keeps
+        WHERE id = 50;

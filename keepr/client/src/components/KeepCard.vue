@@ -4,6 +4,7 @@ import { Account } from '@/models/Account.js';
 import { Keep } from '@/models/Keep.js';
 import { router } from '@/router.js';
 import { keepsService } from '@/services/KeepsService.js';
+import { Pop } from '@/utils/Pop.js';
 import { Modal } from 'bootstrap';
 import { computed } from 'vue';
 
@@ -39,6 +40,8 @@ async function deleteKeep(keepId) {
 
     await keepsService.deleteKeep(keepId);
     console.log("Keep deleted:", keepId);
+
+    Pop.toast("Keep deleted successfully!", "success");
 
     // Optionally, you can refresh the keeps list or update the UI accordingly
     // await keepsService.getKeeps(); 

@@ -39,15 +39,16 @@ class VaultsService {
     }
 
     async getVaultById(vaultId) {
-        const res = await api.get(`api/vaults/${vaultId}`);
-        console.log('getVaultById res', res);
-        AppState.activeVault = new Vault(res.data);
+        AppState.activeVault = null;
+        const response = await api.get(`api/vaults/${vaultId}`);
+        console.log('getVaultById res', response);
+        AppState.activeVault = new Vault(response.data);
     }
 
     async getKeepsInVault(vaultId) {
-        const res = await api.get(`api/vaults/${vaultId}/keeps`);
-        console.log('getKeepsInVault res', res);
-        AppState.keeps = res.data.map(response => new Keep(response));
+        const response = await api.get(`api/vaults/${vaultId}/keeps`);
+        console.log('getKeepsInVault res', response);
+        AppState.keeps = response.data.map(response => new Keep(response));
     }
 }
 

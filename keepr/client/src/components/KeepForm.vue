@@ -1,6 +1,8 @@
 <script setup>
 import { AppState } from '@/AppState.js';
 import { keepsService } from '@/services/KeepsService.js';
+import { Pop } from '@/utils/Pop.js';
+import { Modal } from 'bootstrap';
 import { ref, watch } from 'vue';
 
 
@@ -40,6 +42,10 @@ async function handleSubmit(event) {
     // Reset the form after submission
     resetForm();
 
+    // Close the modal (assuming you're using Bootstrap's modal)
+    Modal.getInstance('#keepModal').hide();
+
+    Pop.toast("Keep created successfully!");
 }
 
 
@@ -76,6 +82,7 @@ function resetForm() {
                         <div class="mb-3">
                             <label for="keepImg" class="form-label">Image URL</label>
                             <input type="text" class="form-control" id="keepImg" v-model="keepForm.img" />
+                            <img class="preview-size" v-if="keepForm.img" :src="keepForm.img" alt="Preview" />
                         </div>
                         <button type="submit" class="btn btn-primary">Save Keep</button>
                     </form>
@@ -87,5 +94,8 @@ function resetForm() {
 
 
 <style lang="scss" scoped>
-
+.preview-size {
+    max-width: 200px;
+    margin-top: 10px;
+}
 </style>

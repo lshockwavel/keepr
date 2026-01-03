@@ -66,21 +66,32 @@ public class KeepsRepository
         return keeps;
     }
 
+    //TODO join vault keeps to get the kept count
     internal Keep GetKeepById(int keepId)
     {
-        string sql = @"
-        SELECT
-        keeps.*,
-        accounts.*
+        // string sql = @"
+        // SELECT
+        // keeps.*,
+        // accounts.*,
+        // count(vk.id) AS Kept
+        // FROM keeps
+        // JOIN accounts ON keeps.creator_id = accounts.id
+        // LEFT JOIN vaultkeeps vk ON keeps.id = vk.keepId
+        // WHERE keeps.id = @keepId;";
+
+        string sql = @"SELECT keeps.*, accounts.*, count(vk.id) AS kept
         FROM keeps
         JOIN accounts ON keeps.creator_id = accounts.id
-        WHERE keeps.id = @keepId;";
+        LEFT JOIN vault_keeps vk ON keeps.id = vk.keep_id
+        WHERE keeps.id = @keepId
+        GROUP BY keeps.id;";
 
-        Keep keep = _db.Query(sql, (Keep keep, Account account) =>
+        Keep keep = _db.Query(sql, (Keep keep, Account account, long kept) =>
         {
             keep.Creator = account;
+            keep.Kept = (int)kept;
             return keep;
-        }, new { keepId }).FirstOrDefault();
+        }, new { keepId }, splitOn: "id,kept").FirstOrDefault();
 
         return keep;
     }

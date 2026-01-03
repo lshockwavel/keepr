@@ -17,7 +17,7 @@ const props = defineProps({
         <div class="card h-100 vault-card">
             <img :src="vault.img" class="card-img-top" :alt="vault.name" />
             <div>
-                <i v-if="vault.isPrivate && account?.id == vault.creatorId" class="mdi mdi-lock"></i>
+                <i v-if="vault.isPrivate && account.id == vault.creatorId" class="mdi mdi-lock"></i>
                 <h5 class="card-title">{{ vault.name }}</h5>
             </div>
         </div>

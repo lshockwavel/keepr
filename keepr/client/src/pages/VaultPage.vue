@@ -13,7 +13,7 @@ import { Pop } from '@/utils/Pop.js';
 const vault = computed(() => AppState.activeVault);
 const account = computed(() => AppState.account);
 // const keeps = computed(() => AppState.keeps);
-const vaultKeeps = computed(() => AppState.vaultKeeps);
+// const vaultKeeps = computed(() => AppState.vaultKeeps);
 const keepVaults = computed(() => AppState.keepVaults);
 
 const route = useRoute();
@@ -23,6 +23,12 @@ watch(route, () => {
     getVaultById();
     getVaultKeepsByVaultId();
 }, { immediate: true });
+
+//When keepVaults changes, refetch vaultKeeps
+// watch(keepVaults, () => {
+//     getVaultKeepsByVaultId();
+// });
+
 
 async function getVaultById() {
     try {
@@ -37,16 +43,16 @@ async function getVaultById() {
     }
 }
 
-async function getKeepsByVaultId() {
-    try {
-        const vaultId = route.params.vaultId;
-        // Assuming you have a vaultService similar to keepsService
-        await vaultsService.getKeepsInVault(vaultId);
-        console.log("Keeps fetched for vault:", vaultId);
-    } catch (error) {
-        console.error("Error fetching keeps for vault:", error);
-    }
-}
+// async function getKeepsByVaultId() {
+//     try {
+//         const vaultId = route.params.vaultId;
+//         // Assuming you have a vaultService similar to keepsService
+//         await vaultsService.getKeepsInVault(vaultId);
+//         console.log("Keeps fetched for vault:", vaultId);
+//     } catch (error) {
+//         console.error("Error fetching keeps for vault:", error);
+//     }
+// }
 
 async function getVaultKeepsByVaultId() {
     try {
@@ -111,7 +117,7 @@ async function deleteVault() {
         <section class="row text-center mb-4">
             <div class="d-flex justify-content-evenly align-items-center gap-3">
                 <span>
-                    {{ vaultKeeps.length }} Keeps
+                    {{ keepVaults.length }} Keeps
                 </span>
                 <div v-if="account.id == vault.creatorId" class="dropdown">
                     <button class="btn" type="button" data-bs-toggle="dropdown">
@@ -133,10 +139,10 @@ async function deleteVault() {
             </div>
         </section>
         <section class="row">
-            <div v-if="vaultKeeps.length === 0" class="col-12 text-center">
+            <div v-if="keepVaults.length === 0" class="col-12 text-center">
                 <p>No keeps found in this vault.</p>
             </div>
-            <div v-else class="col-12">
+            <div>
                 <div class="masonry-grid">
                     <!-- <div v-for="keep in keeps" :key="keep.id" class="mb-4">
                         <div class="card h-100 keep-card-image">

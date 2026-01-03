@@ -14,8 +14,14 @@ export const AppState = reactive({
   /** @type {Keep[]} */
   keeps: [],
 
+  /** @type {Keep[]} */
+  profileKeeps: [],
+
   /** @type {Vault[]} */
   vaults: [],
+
+  /** @type {Vault[]} */
+  profileVaults: [],
 
   /** @type {Vault} */
   activeVault: null,
@@ -25,6 +31,9 @@ export const AppState = reactive({
 
   /** @type {Profile} */
   profile: null,
+
+  /** @type {Profile} */
+  activeProfile: null,
 
   /** @type {KeepVault} */
   activeKeepVault: null,
