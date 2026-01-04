@@ -119,7 +119,7 @@ async function deleteVault() {
                 <span>
                     {{ keepVaults.length }} Keeps
                 </span>
-                <div v-if="account.id == vault.creatorId" class="dropdown">
+                <div v-if="account?.id == vault.creatorId" class="dropdown">
                     <button class="btn" type="button" data-bs-toggle="dropdown">
                         <i class="mdi mdi-dots-horizontal"></i>
                     </button>

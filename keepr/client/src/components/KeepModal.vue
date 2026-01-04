@@ -115,7 +115,10 @@ async function addKeepToVault(vaultId) {
                 </div>
                 <div class="d-flex">
                   <!-- Example select dropdown -->
-                  <div v-if="vaults.length === 0">No vaults available</div>
+                   <div v-if="!account">
+                    <p>Please log in to add this keep to a vault.</p>
+                  </div>
+                  <div v-else-if="vaults.length === 0">No vaults available</div>
                   <div v-else>
                     <select v-model="selectedVault" class="form-select mt-3">
                       <option value="">Select an option...</option>
