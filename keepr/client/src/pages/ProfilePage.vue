@@ -16,6 +16,8 @@ const profile = computed(() => AppState.profile);
 const keeps = computed(() => AppState.profileKeeps);
 const vaults = computed(() => AppState.profileVaults);
 
+const newKeeps = computed(() => AppState.keeps); // For testing keep updates
+
 const route = useRoute();
 const router = useRouter();
 
@@ -32,10 +34,19 @@ watch(account, () => {
     }
 });
 
-// watch(keeps, () => {
-//     console.log("Keeps updated for profile page:", keeps.value);
-//     getKeepsByProfileId();
-// });
+watch(newKeeps, () => {
+    //Checking the last keep to see if it belongs to this profile
+    console.log('Watcher fired! newKeeps length:', newKeeps.value.length);
+
+    const lastKeep = newKeeps.value[newKeeps.value.length - 1];
+
+    console.log('Last keep creatorId:', lastKeep?.creatorId, 'type:', typeof lastKeep?.creatorId);
+    console.log('Route profileId:', route.params.profileId, 'type:', typeof route.params.profileId);
+
+    if (lastKeep && lastKeep.creatorId === account.value?.id) {
+        AppState.profileKeeps.push(lastKeep);
+    }
+});
 
 async function getProfileById() {
     try {

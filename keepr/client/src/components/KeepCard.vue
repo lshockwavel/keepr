@@ -2,13 +2,11 @@
 import { AppState } from '@/AppState.js';
 import { Account } from '@/models/Account.js';
 import { Keep } from '@/models/Keep.js';
-import { router } from '@/router.js';
 import { keepsService } from '@/services/KeepsService.js';
 import { Pop } from '@/utils/Pop.js';
 import { Modal } from 'bootstrap';
 import { computed } from 'vue';
 
-const activeKeep = computed(() => AppState.activeKeep);
 const activeAccount = computed(() => AppState.account);
 
 const props = defineProps({
@@ -51,9 +49,6 @@ async function deleteKeep(keepId) {
     console.error("Error deleting keep:", error);
   }
 }
-
-
-
 </script>
 
 

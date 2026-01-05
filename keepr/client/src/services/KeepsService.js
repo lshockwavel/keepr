@@ -11,11 +11,20 @@ class KeepsService {
         // Also remove from keepVaults if present
         AppState.profileKeeps = AppState.profileKeeps.filter(keepVault => keepVault.id !== keepId);
     }
-    
+
     async createKeep(request) {
         const response = await api.post('api/keeps', request);
+
         const newKeep = new Keep(response.data);
+
         AppState.keeps.push(newKeep);
+        console.log('Pushed to AppState.keeps, new length:', AppState.keeps.length);
+
+        if (newKeep.creatorId === AppState.profile?.id) {
+            AppState.profileKeeps.push(newKeep);
+            console.log('Pushed to AppState.profileKeeps, new length:', AppState.profileKeeps.length);
+        }
+
         return newKeep;
     }
 

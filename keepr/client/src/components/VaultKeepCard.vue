@@ -2,10 +2,8 @@
 import { AppState } from '@/AppState.js';
 import { Account } from '@/models/Account.js';
 import { KeepVault } from '@/models/Keep.js';
-import { VaultKeep } from '@/models/VaultKeep.js';
 import { vaultsService } from '@/services/VaultsService.js';
 import { computed } from 'vue';
-
 
 
 const ActiveKeepVault = computed(() => AppState.activeKeepVault);
@@ -46,8 +44,8 @@ async function getActiveVaultKeepByVaultIdAndVaultKeepId(vaultId, vaultKeepId) {
 
 .keep-name {
   position: absolute;
-  bottom: 10px;  /* Distance from bottom */
-  left: 10px;    /* Distance from left */
+  bottom: 10px; 
+  left: 10px; 
   
   /* Make text readable over image */
   color: white;
