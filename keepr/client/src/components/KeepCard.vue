@@ -106,19 +106,14 @@ async function deleteKeep(keepId) {
 }
 
 .keep-creator-picture {
-  width: 40px;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  // width: 40px;
   height: 40px;
   border: 2px solid white;
-}
-
-.keep-creator-picture {
-  width: 40px;
-  height: 40px;
-  border: 2px solid white;
-  border-radius: 50%;
   position: absolute;
   bottom: 0;
   right: 0;
-  //   margin: 0.5rem;
+  border-radius: 50%;
 }
 </style>
